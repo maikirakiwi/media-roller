@@ -14,20 +14,18 @@ import (
 	"github.com/dustin/go-humanize"
 	"golang.org/x/sync/errgroup"
 
+	"bytes"
+	"io"
 	"media-roller/src/utils"
+	"os"
+	"os/exec"
+
+	"github.com/rs/zerolog/log"
 )
 
 /**
 This file will download the media from a URL and save it to disk.
 */
-
-import (
-	"bytes"
-	"github.com/rs/zerolog/log"
-	"io"
-	"os"
-	"os/exec"
-)
 
 type Media struct {
 	Id          string
@@ -323,14 +321,7 @@ func isValidId(id string) bool {
 }
 
 func getDownloadDir() string {
-	dir := os.Getenv("MR_DOWNLOAD_DIR")
-	if dir != "" {
-		if !strings.HasSuffix(dir, "/") {
-			return dir + "/"
-		}
-		return dir
-	}
-	return "downloads/"
+	return "/tmp"
 }
 
 func getEnvVars() map[string]string {
